@@ -1,5 +1,6 @@
 ﻿using eShopSolution.Data.Configuarations;
 using eShopSolution.Database.Configuarations;
+using eShopSolution.Database.Extentsions;
 using eShopSolutions.Database.Entity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -26,6 +27,8 @@ namespace eShopSolutions.Database.EF
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Config using Fluent API
+        
             modelBuilder.ApplyConfiguration(new AppConfigConfigguration());
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
@@ -37,6 +40,9 @@ namespace eShopSolutions.Database.EF
             modelBuilder.ApplyConfiguration(new ContactConfiguration());
             modelBuilder.ApplyConfiguration(new LanguageConfiguration());
             modelBuilder.ApplyConfiguration(new ProductTranslationConfiguration());
+
+
+           modelBuilder.Seed(); 
 
             /* base.OnModelCreating(modelBuilder);*/
         }
