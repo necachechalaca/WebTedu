@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\eShopSolution.Database\eShopSolution.Database.csproj" />
+    <ProjectReference Include="..\eShopSolutions.Utilities\eShopSolutions.Utilities.csproj" />
+    <ProjectReference Include="..\eShopSolutions.ViewModels\eShopSolutions.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>

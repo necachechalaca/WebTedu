@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace eShopSolutions.Database.Entity
 {
 
-    public class Product
+    public class Productt
     {
 
         public int Id { get; set; }
@@ -25,6 +25,8 @@ namespace eShopSolutions.Database.Entity
         public List<Cart> Carts { get; set; }
 
         public List<ProductTranslation> ProductTranslations { get; set; }
+        
+        public List<ProductImage> ProductImages { get; set; }   
 
     }
 }

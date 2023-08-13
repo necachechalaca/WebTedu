@@ -12,7 +12,7 @@ namespace eShopSolutions.Database.Entity
     {
         public int ProductId { get; set; } /*ForeignKey*/
 
-        public Product Product { get; set; }
+        public Productt Product { get; set; }
 
 
         public int CategoryId { get; set; }  /*ForeignKey*/

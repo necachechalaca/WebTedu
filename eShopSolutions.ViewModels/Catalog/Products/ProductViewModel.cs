@@ -4,12 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eShopSolutions.Database.Entity
+namespace eShopSolutions.ViewModels.Catalog.Products
+
 {
-    public class ProductTranslation
+    public class ProductViewModel
     {
+
         public int Id { get; set; }
-        public int ProductId { get; set; }
+        public decimal Price { get; set; }
+        public decimal OriginalPrice { get; set; }
+        public int Stock { get; set; }
+
+        public int ViewCount { get; set; }
+        public DateTime DateCreated { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Details { get; set; }
@@ -18,9 +25,5 @@ namespace eShopSolutions.Database.Entity
 
         public string SeoAlias { get; set; }
         public string LanguageId { get; set; }
-
-        public Productt Product { get; set; }
-
-        public Language Language { get; set; }
     }
 }

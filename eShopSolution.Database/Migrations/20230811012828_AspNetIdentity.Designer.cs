@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eShopSolutions.Database.EF;
 
 namespace eShopSolution.Database.Migrations
 {
     [DbContext(typeof(EShopDbContext))]
-    partial class EShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230811012828_AspNetIdentity")]
+    partial class AspNetIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,13 +94,6 @@ namespace eShopSolution.Database.Migrations
                     b.HasKey("RoleId", "UserId");
 
                     b.ToTable("AppUserRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            RoleId = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            UserId = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de")
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -144,16 +139,6 @@ namespace eShopSolution.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AppRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "a2bb658f-966e-433b-af40-6c099e881c6b",
-                            Description = "Administrator role",
-                            Name = "admin",
-                            NormalizedName = "admin"
-                        });
                 });
 
             modelBuilder.Entity("eShopSolution.Database.Entity.AppUser", b =>
@@ -217,26 +202,6 @@ namespace eShopSolution.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AppUsers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "0c494e43-82cb-4cd3-9480-eaf1c6aa78c8",
-                            Email = "mactran1997@gmail.com",
-                            EmailConfirmed = true,
-                            FirstName = "Phuc",
-                            LastName = "Tran",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "huyphuc1997a@gmail.com",
-                            NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPF0UE2CHT+V+Rh7Yp2Tx59NdCwHVhJAHO2uP/o0jzvrIQZJWr4AlkmHPpEvbF/5Hg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "",
-                            TwoFactorEnabled = false,
-                            UserName = "admin"
-                        });
                 });
 
             modelBuilder.Entity("eShopSolutions.Database.Entity.AppConfig", b =>
@@ -275,8 +240,6 @@ namespace eShopSolution.Database.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("Price")
@@ -305,8 +268,6 @@ namespace eShopSolution.Database.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("IsShowOnHome")
@@ -349,8 +310,6 @@ namespace eShopSolution.Database.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CategoryId")
@@ -436,8 +395,6 @@ namespace eShopSolution.Database.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
@@ -506,8 +463,6 @@ namespace eShopSolution.Database.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("OrderDate")
@@ -544,7 +499,7 @@ namespace eShopSolution.Database.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Oders");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("eShopSolutions.Database.Entity.OrderDetail", b =>
@@ -568,44 +523,46 @@ namespace eShopSolution.Database.Migrations
                     b.ToTable("OrderDetails");
                 });
 
-            modelBuilder.Entity("eShopSolutions.Database.Entity.ProductImage", b =>
+            modelBuilder.Entity("eShopSolutions.Database.Entity.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Caption")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("FileSize")
-                        .HasColumnType("bigint");
+                    b.Property<decimal>("OriginalPrice")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("bit");
+                    b.Property<int>("Stock")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SortOder")
-                        .HasColumnType("int");
+                    b.Property<int>("ViewCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.ToTable("Products");
 
-                    b.ToTable("ProductImages");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateCreated = new DateTime(2023, 8, 11, 8, 28, 28, 366, DateTimeKind.Local).AddTicks(2503),
+                            OriginalPrice = 100000m,
+                            Price = 200000m,
+                            Stock = 0,
+                            ViewCount = 0
+                        });
                 });
 
             modelBuilder.Entity("eShopSolutions.Database.Entity.ProductInCategory", b =>
@@ -706,50 +663,6 @@ namespace eShopSolution.Database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("eShopSolutions.Database.Entity.Productt", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("OriginalPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Stock")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.Property<int>("ViewCount")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DateCreated = new DateTime(2023, 8, 13, 17, 8, 36, 237, DateTimeKind.Local).AddTicks(5808),
-                            OriginalPrice = 100000m,
-                            Price = 200000m,
-                            Stock = 0,
-                            ViewCount = 0
-                        });
-                });
-
             modelBuilder.Entity("eShopSolutions.Database.Entity.Promotion", b =>
                 {
                     b.Property<int>("Id")
@@ -835,7 +748,7 @@ namespace eShopSolution.Database.Migrations
 
             modelBuilder.Entity("eShopSolutions.Database.Entity.Cart", b =>
                 {
-                    b.HasOne("eShopSolutions.Database.Entity.Productt", "Product")
+                    b.HasOne("eShopSolutions.Database.Entity.Product", "Product")
                         .WithMany("Carts")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -890,7 +803,7 @@ namespace eShopSolution.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eShopSolutions.Database.Entity.Productt", "Product")
+                    b.HasOne("eShopSolutions.Database.Entity.Product", "Product")
                         .WithMany("OrderDetails")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -901,17 +814,6 @@ namespace eShopSolution.Database.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("eShopSolutions.Database.Entity.ProductImage", b =>
-                {
-                    b.HasOne("eShopSolutions.Database.Entity.Productt", "Productt")
-                        .WithMany("ProductImages")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Productt");
-                });
-
             modelBuilder.Entity("eShopSolutions.Database.Entity.ProductInCategory", b =>
                 {
                     b.HasOne("eShopSolutions.Database.Entity.Category", "Category")
@@ -920,7 +822,7 @@ namespace eShopSolution.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eShopSolutions.Database.Entity.Productt", "Product")
+                    b.HasOne("eShopSolutions.Database.Entity.Product", "Product")
                         .WithMany("ProductInCategories")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -939,7 +841,7 @@ namespace eShopSolution.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eShopSolutions.Database.Entity.Productt", "Product")
+                    b.HasOne("eShopSolutions.Database.Entity.Product", "Product")
                         .WithMany("ProductTranslations")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -987,13 +889,11 @@ namespace eShopSolution.Database.Migrations
                     b.Navigation("OrderDetails");
                 });
 
-            modelBuilder.Entity("eShopSolutions.Database.Entity.Productt", b =>
+            modelBuilder.Entity("eShopSolutions.Database.Entity.Product", b =>
                 {
                     b.Navigation("Carts");
 
                     b.Navigation("OrderDetails");
-
-                    b.Navigation("ProductImages");
 
                     b.Navigation("ProductInCategories");
 

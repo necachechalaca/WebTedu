@@ -3,6 +3,8 @@ using eShopSolutions.Database.Enums;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System;
+using eShopSolution.Database.Entity;
+using Microsoft.AspNetCore.Identity;
 
 namespace eShopSolution.Database.Extentsions
 {
@@ -44,8 +46,8 @@ namespace eShopSolution.Database.Extentsions
                   new CategoryTranslation() { Id = 4, CategoryId = 2, Name = "Women Shirt", LanguageId = "en", SeoAlias = "women-shirt", SeoDescription = "The shirt products for women", SeoTitle = "The shirt products for women" }
                     );
 
-            modelBuilder.Entity<Product>().HasData(
-           new Product()
+            modelBuilder.Entity<Productt>().HasData(
+           new Productt()
            {
                Id = 1,
                DateCreated = DateTime.Now,
@@ -82,6 +84,39 @@ namespace eShopSolution.Database.Extentsions
             modelBuilder.Entity<ProductInCategory>().HasData(
                 new ProductInCategory() { ProductId = 1, CategoryId = 1 }
             );
+            // any guid
+            var roleId = new Guid("8D04DCE2-969A-435D-BBA4-DF3F325983DC");
+            var adminId = new Guid("69BD714F-9576-45BA-B5B7-F00649BE00DE");
+            modelBuilder.Entity<AppRole>().HasData(new AppRole
+            {
+                Id = roleId,
+                Name = "admin",
+                NormalizedName = "admin",
+                Description = "Administrator role"
+            });
+
+            var hasher = new PasswordHasher<AppUser>();
+            modelBuilder.Entity<AppUser>().HasData(new AppUser
+            {
+                Id = adminId,
+                UserName = "admin",
+                NormalizedUserName = "admin",
+                Email = "mactran1997@gmail.com",
+                NormalizedEmail = "huyphuc1997a@gmail.com",
+                EmailConfirmed = true,
+                PasswordHash = hasher.HashPassword(null, "Abcd1234$"),
+                SecurityStamp = string.Empty,
+                FirstName = "Phuc",
+                LastName = "Tran",
+               
+            });
+
+            modelBuilder.Entity<IdentityUserRole<Guid>>().HasData(new IdentityUserRole<Guid>
+            {
+                RoleId = roleId,
+                UserId = adminId
+            });
+
         }
     }
     

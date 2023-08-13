@@ -3,21 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using eShopSolution.Database.Entity;
 using eShopSolutions.Database.Enums;
 
 namespace eShopSolutions.Database.Entity
 {
     public class Transactionn
     {
-        public int Id { set; get; }
-        public DateTime TransactionDate { set; get; }
-        public string ExternalTransactionId { set; get; }
-        public decimal Amount { set; get; }
-        public decimal Fee { set; get; }
-        public string Result { set; get; }
-        public string Message { set; get; }
-        public TransactionStatus Status { set; get; }
-        public string Provider { set; get; }
+        public int Id { get; set; }
+        public DateTime TransactionDate { get; set; }
+        public string ExternalTransactionId { get; set; }
+        public decimal Amount { get; set; }
+        public decimal Fee { get; set; }
+        public string Result { get; set; }
+        public string Message { get; set; }
+        public TransactionStatus Status { get; set; }
+        public string Provider { get; set; }
+
+        public Guid UserID { get; set; }    
+
+        public AppUser AppUser { get; set; }   
 
        
     }
