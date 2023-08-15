@@ -1,12 +1,14 @@
-﻿using eShopSolutions.ViewModels.Catalog.Products.Manager;
+﻿using eShopSolutions.ViewModels.Catalog.Products;
 using eShopSolutions.ViewModels.Common.Dtos;
-using eShopSolutions.ViewModels.Catalog.Products;
+using eShopSolutions.ViewModels.Catalog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Http;
+using eShopSolutions.ViewModels.Catalog.ProductImage;
+using eShopSolutions.ViewModels.Catalog.Products.Public;
 
 namespace eShopSolutions.Application.Catalog.Product
 {
@@ -26,5 +28,17 @@ namespace eShopSolutions.Application.Catalog.Product
      
 
         Task<PageResult<ProductViewModel>> GetAllPaging(GetProductPagingRequest request);
+
+
+        Task<int> AddImage (int productId, ProductImageCreateRequest request);
+
+        Task<int> UpdateImage(int imageId, ProductImageUpdateRequest request);
+
+        Task<int> DeleteImage(int imageId);
+
+        Task<List<ProductImageViewModel>> GetListImage(int productId);
+
+        Task<ProductImageViewModel> GetImageById(int imageId);
+        Task<ProductViewModel> GetById (int productId, string languageId);
     }
 }

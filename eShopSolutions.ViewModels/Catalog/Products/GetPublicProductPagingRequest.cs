@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eShopSolutions.ViewModels.Catalog.Products.Manager
+namespace eShopSolutions.ViewModels.Catalog.Products
 {
-    public class GetProductPagingRequest : PagingRequestBase
+    public class GetPublicProductPagingRequest : PagingRequestBase
     {
-        public string KeyWord { get; set; }
+
         public int? CategoryId { get; set; }
     }
-}
+}   
