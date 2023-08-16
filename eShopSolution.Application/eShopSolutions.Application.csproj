@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\eShopSolution.Database\eShopSolution.Database.csproj" />
+    <ProjectReference Include="..\eShopSolution.Database\eShopSolutions.Database.csproj" />
     <ProjectReference Include="..\eShopSolutions.Utilities\eShopSolutions.Utilities.csproj" />
     <ProjectReference Include="..\eShopSolutions.ViewModels\eShopSolutions.ViewModels.csproj" />
   </ItemGroup>

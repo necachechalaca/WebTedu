@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace eShopSolution.Database.Entity
 {
-    public class AppUser : IdentityUser<Guid>
+    public class AppUser : IdentityUser<Guid> 
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

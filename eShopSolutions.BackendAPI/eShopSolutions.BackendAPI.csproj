@@ -5,14 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.17" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\eShopSolution.Application\eShopSolution.Application.csproj" />
-    <ProjectReference Include="..\eShopSolution.Database\eShopSolution.Database.csproj" />
+    <ProjectReference Include="..\eShopSolution.Application\eShopSolutions.Application.csproj" />
+    <ProjectReference Include="..\eShopSolution.Database\eShopSolutions.Database.csproj" />
     <ProjectReference Include="..\eShopSolutions.Utilities\eShopSolutions.Utilities.csproj" />
+    <ProjectReference Include="..\eShopSolutions.ViewModels\eShopSolutions.ViewModels.csproj" />
   </ItemGroup>
 
   <ItemGroup>

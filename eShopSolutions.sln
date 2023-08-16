@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34003.232
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShopSolution.Database", "eShopSolution.Database\eShopSolution.Database.csproj", "{31EA004D-F05E-4A6D-95F1-FFBB547DB22A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShopSolutions.Database", "eShopSolution.Database\eShopSolutions.Database.csproj", "{31EA004D-F05E-4A6D-95F1-FFBB547DB22A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShopSolution.Application", "eShopSolution.Application\eShopSolution.Application.csproj", "{EAEDCC01-E4ED-4AF0-A6D1-CE30D6A3C2F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShopSolutions.Application", "eShopSolution.Application\eShopSolutions.Application.csproj", "{EAEDCC01-E4ED-4AF0-A6D1-CE30D6A3C2F6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShopSolutions.Utilities", "eShopSolutions.Utilities\eShopSolutions.Utilities.csproj", "{E75DAABF-AE68-485E-9028-E394F6E44563}"
 EndProject
