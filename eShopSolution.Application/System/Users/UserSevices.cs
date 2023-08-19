@@ -1,7 +1,9 @@
 ﻿using eShopSolution.Database.Entity;
 using eShopSolutions.Utilities.Exeptions;
+using eShopSolutions.ViewModels.Common.Dtos;
 using eShopSolutions.ViewModels.System.Users;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -35,7 +37,7 @@ namespace eShopSolutions.Application.System.Users
             {
              throw new eShopExceptions("Tài khoản không tồn tại");
             }
-            var result = await _signManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
+            var result = await _signManager.PasswordSignInAsync(user, request.Password, false, false);
             if (!result.Succeeded)
             {
                 throw new eShopExceptions("Đăng nhập không đúng");
@@ -48,7 +50,7 @@ namespace eShopSolutions.Application.System.Users
                 new Claim(ClaimTypes.Role, string.Join(";",roles)),
                 new Claim(ClaimTypes.Name, request.UserName)
             };
-            var secetKey = new SymmetricSecurityKey// class abstract doi xung
+            var secetKey = new SymmetricSecurityKey// class abstract doi xung  de xac thuc signature
                 (Encoding.UTF8.GetBytes(_configuration["Tokens:Key"])); // dung de ma hoa du lieu  
             var creds = new SigningCredentials(secetKey, SecurityAlgorithms.HmacSha256);
             // SigningCredentials dai dien cho khoa mat ma va bao mat
@@ -67,6 +69,35 @@ namespace eShopSolutions.Application.System.Users
 
         }
 
+        public async Task<PageResult<UserViewModel>> GetUserPaging(GetUserPaginfRequest request)
+        {
+            var query = _userManager.Users;
+            if (!string.IsNullOrEmpty(request.KeyWord))
+            {
+                query = query.Where(x=> x.UserName.Contains( request.KeyWord) 
+                || x.PhoneNumber.Contains(request.KeyWord));
+            }
+            int totalRaw = await query.CountAsync();
+            var data = await query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize)
+
+                .Select(x => new UserViewModel()
+                {
+                    Email = x.Email,    
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    PhoneNumber = x.PhoneNumber,
+                    UserName = x.UserName,
+                    Id = x.Id,
+                }).ToListAsync() ;
+
+            var pagedresult = new PageResult<UserViewModel>()
+            {
+                TotalRecord = totalRaw,
+                Items = data
+            };
+            return pagedresult;
+        }
+
         public async Task<bool> Register(RegisterRequest request) // dang ky
         {
             var user = new AppUser()
@@ -78,7 +109,7 @@ namespace eShopSolutions.Application.System.Users
                 PhoneNumber = request.PhoneNumber,
               
             };
-            var result = await _userManager.CreateAsync(user);    
+            var result = await _userManager.CreateAsync(user, request.Password);    
             if(result.Succeeded)
             {
                 return true;
