@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace eShopSolutions.Application.Common
 {
-    public class RequestBase
+    public class RequestBase 
     {
-        public string BearerToken { get; set; }  
+        public string BearerToken { get; set; }
     }
 }

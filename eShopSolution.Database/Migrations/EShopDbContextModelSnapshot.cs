@@ -149,7 +149,7 @@ namespace eShopSolution.Database.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "9d4bfaef-dcce-4074-ac3b-5695d1d6d614",
+                            ConcurrencyStamp = "a176452f-8c29-40c5-a29f-b08ef0ac7881",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -223,7 +223,7 @@ namespace eShopSolution.Database.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "235635cd-938a-4a52-8263-9dd43539bb05",
+                            ConcurrencyStamp = "5270da06-9a62-429d-a238-34d946919700",
                             Email = "mactran1997@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Phuc",
@@ -231,7 +231,7 @@ namespace eShopSolution.Database.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "huyphuc1997a@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAELPpc6KCfkq12w149OeIPZJNSY0cL/sMlFwgW2yPuvBdluA67MRWiUfD/ioZg1WD3w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJsPeHKMinm4a2R5CVDpQ6Rw0K/HvwXFIr3ckG8L3FJ/KU9n7E1595tGH7erP5gkZw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -648,9 +648,9 @@ namespace eShopSolution.Database.Migrations
 
                     b.Property<string>("LanguageId")
                         .IsRequired()
-                        .HasMaxLength(10)
+                        .HasMaxLength(5)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("varchar(5)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -742,7 +742,7 @@ namespace eShopSolution.Database.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2023, 8, 15, 13, 21, 27, 880, DateTimeKind.Local).AddTicks(300),
+                            DateCreated = new DateTime(2023, 8, 20, 22, 14, 56, 847, DateTimeKind.Local).AddTicks(5966),
                             OriginalPrice = 100000m,
                             Price = 200000m,
                             Stock = 0,

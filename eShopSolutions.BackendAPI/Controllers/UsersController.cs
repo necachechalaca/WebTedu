@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
+
 namespace eShopSolutions.BackendAPI.Controllers
 {
     [Route("api/[controller]")]
@@ -31,7 +32,8 @@ namespace eShopSolutions.BackendAPI.Controllers
             { 
                 return BadRequest("UserName or Password is incorrect.");
             }
-            return Ok (new { token = resultToken });
+           
+            return Ok ( resultToken );
                
         }
         [HttpPost("register")]                                                                                      

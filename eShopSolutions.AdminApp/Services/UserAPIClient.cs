@@ -3,6 +3,7 @@ using eShopSolutions.ViewModels.System.Users;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,7 +21,7 @@ namespace eShopSolutions.AdminApp.Services
             var json = JsonConvert.SerializeObject(request);
             var httcontent = new StringContent(json,Encoding.UTF8, "application/json");
           var client =  _httpClientFactory.CreateClient();
-            client.BaseAddress = new Uri("https://localhost:5002");
+            client.BaseAddress = new Uri("https://localhost:5001");
 
 
 
@@ -35,7 +36,8 @@ namespace eShopSolutions.AdminApp.Services
         {
             
             var client = _httpClientFactory.CreateClient();
-            client.BaseAddress = new Uri("https://localhost:5002");
+            client.BaseAddress = new Uri("https://localhost:5001");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue ( "Bearer" + request.BearerToken );
 
             var response = await client.GetAsync($"/api/users/paging?pageIndex= " + 
                 $"{request.PageIndex}&pageSize={request.PageSize}&keywork = {request.KeyWord}");
