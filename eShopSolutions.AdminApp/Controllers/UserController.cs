@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Nest;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -30,13 +31,14 @@ namespace eShopSolutions.AdminApp.Controllers
             var secssion = HttpContext.Session.GetString("Token");
             var request = new GetUserPaginfRequest()
             {
-                BearerToken = secssion,
+               
                 KeyWord = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
             var data = await  _userApiClient.GetUserPaging(request);
-            return View(data);
+            ViewData["Keyword"] = keyword;  
+            return View(data.ResultObj);
         }
 
 
@@ -55,13 +57,13 @@ namespace eShopSolutions.AdminApp.Controllers
             }
             var token = await _userApiClient.Authenticate(request);
 
-            var userPrincipal = this.ValidateToken(token);
+            var userPrincipal = this.ValidateToken(token.ResultObj);
             var authProperties = new AuthenticationProperties // lưu trữ trạng thái và phiên xác thực
             {
                 ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10), // lấy hoặc gán thời gian tokent hết hạn
                 IsPersistent = true // ghi nhớ đăng nhập
             };
-            HttpContext.Session.SetString("Token", token);
+            HttpContext.Session.SetString("Token", token.ResultObj);
             // đăng nhập
             await HttpContext.SignInAsync(
                        CookieAuthenticationDefaults.AuthenticationScheme,
@@ -79,6 +81,7 @@ namespace eShopSolutions.AdminApp.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Remove("Token");    
             return RedirectToAction("Login", "User");
 
         }
@@ -108,6 +111,89 @@ namespace eShopSolutions.AdminApp.Controllers
             
 
         }
-       
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task< IActionResult> Create(RegisterRequest request)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(ModelState);
+            }
+            var result = await _userApiClient.RegisterUser(request);
+            if (result.IsSuccess)
+                return RedirectToAction("Index");
+            ModelState.AddModelError("", result.Message);
+            return View(request);
+        }
+        [HttpGet]
+        public async Task< IActionResult> Edit(Guid id)
+        {
+            var result = await _userApiClient.GetUserId(id);
+            if(result.IsSuccess)
+            {
+                var user = result.ResultObj;
+                var userUpdate = new UserUpdateRequest()
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
+                    Id = id
+                };
+                return View(userUpdate);    
+            }
+            
+            return RedirectToAction("Eror", "Home");
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit( UserUpdateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            var result = await _userApiClient.Edit(request.Id, request);
+            if (result.IsSuccess)
+                return RedirectToAction("Index");
+            ModelState.AddModelError("", result.Message);
+            return View(request);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var result = await _userApiClient.GetUserId(id);
+            return View(result.ResultObj);    
+        }
+
+
+        [HttpGet]
+        public IActionResult Delete(Guid id)
+        {
+            return View(new UserDeleteRequest()
+            {
+                Id = id
+            }); ;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(UserDeleteRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(ModelState);
+            }
+            var result = await _userApiClient.Delete(request.Id);
+            if (result.IsSuccess)
+                return RedirectToAction("Index");
+            ModelState.AddModelError("", result.Message);
+            return View(request);
+        }
+
     }
 }

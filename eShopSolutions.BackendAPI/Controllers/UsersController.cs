@@ -3,6 +3,7 @@ using eShopSolutions.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 
@@ -12,6 +13,7 @@ namespace eShopSolutions.BackendAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        
         private readonly IUserServices _userServices;
         public UsersController(IUserServices userServices) 
         { 
@@ -28,29 +30,30 @@ namespace eShopSolutions.BackendAPI.Controllers
             }
             var resultToken = await _userServices.Authencate(request);
 
-            if(string.IsNullOrEmpty(resultToken))
+            if(string.IsNullOrEmpty(resultToken.ResultObj))
             { 
-                return BadRequest("UserName or Password is incorrect.");
+                return BadRequest(resultToken);
             }
            
             return Ok ( resultToken );
                
         }
         [HttpPost("register")]                                                                                      
-        [AllowAnonymous]
-        public async Task<IActionResult> Register([FromForm] RegisterRequest request)
+      
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+        
             var result = await _userServices.Register(request);
 
-            if (!result)
+            if (!result.IsSuccess)
             {
-                return BadRequest("Register is unsuccesful");
+                return BadRequest(result);
             }
-            return Ok();
+            return Ok(result);
 
         }
         [HttpGet("paging")]
@@ -58,6 +61,39 @@ namespace eShopSolutions.BackendAPI.Controllers
         {
            var product = await _userServices.GetUserPaging(request);    
             return Ok(product);
+        }
+
+
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Edit(Guid id, [FromBody] UserUpdateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _userServices.Edit(id,request);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(Guid id)
+        {
+            var user = await _userServices.GetUserByID(id);
+            return Ok(user);
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var result = await _userServices.Delete(id);
+            return Ok(result);
         }
 
     }

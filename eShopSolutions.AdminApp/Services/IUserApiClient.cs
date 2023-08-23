@@ -1,14 +1,24 @@
 ﻿using eShopSolutions.ViewModels.Common.Dtos;
 using eShopSolutions.ViewModels.System.Users;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 using System.Threading.Tasks;
 
 namespace eShopSolutions.AdminApp.Services
 {
     public interface IUserApiClient
     {
-        Task<string> Authenticate(LoginRequest request);
+        Task<ApiResult<string>> Authenticate(LoginRequest request);
 
-        Task<PageResult<UserViewModel>>GetUserPaging (GetUserPaginfRequest request);
+        Task<ApiResult<PageResult<UserViewModel>>> GetUserPaging (GetUserPaginfRequest request);
+        Task<ApiResult<bool>> RegisterUser(RegisterRequest registerRequest);
+
+        Task<ApiResult<bool>> Edit(Guid id, UserUpdateRequest request);
+
+        Task<ApiResult<UserViewModel>> GetUserId(Guid id);
+
+        Task<ApiResult<bool>> Delete(Guid id);
+
+
     }
 }

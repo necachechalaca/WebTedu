@@ -1,4 +1,5 @@
 ﻿using eShopSolution.Database.Entity;
+using eShopSolutions.Database.EF;
 using eShopSolutions.Utilities.Exeptions;
 using eShopSolutions.ViewModels.Common.Dtos;
 using eShopSolutions.ViewModels.System.Users;
@@ -14,23 +15,27 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace eShopSolutions.Application.System.Users
 {
     public class UserSevices : IUserServices
     {
+       
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IConfiguration _configuration;
         public UserSevices(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager, IConfiguration configuration) 
         {
+           
             _userManager = userManager;
             _signManager = signInManager;   
             _roleManager = roleManager; 
             _configuration = configuration;
+
         }
 
-        public async Task<string> Authencate(LoginRequest request) // dang nhap
+        public async Task<ApiResult<string>> Authencate(LoginRequest request) // dang nhap
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null)
@@ -40,7 +45,7 @@ namespace eShopSolutions.Application.System.Users
             var result = await _signManager.PasswordSignInAsync(user, request.Password, false, false);
             if (!result.Succeeded)
             {
-                throw new eShopExceptions("Đăng nhập không đúng");
+                return new ApiErorResult<string>("Đăng nhập không đúng");
             }
             var roles = await _userManager.GetRolesAsync(user);
             var claims = new[]
@@ -63,13 +68,34 @@ namespace eShopSolutions.Application.System.Users
             //  trong JwtSecurityToken gom 3 tp , Payload, header, RawSignature
             // Payload nội dung thông tin mà người dùng mong muốn bên trong chuỗi JSON
 
-            return new  JwtSecurityTokenHandler().WriteToken(token);
+           return new ApiSuccessResult<string> ( new  JwtSecurityTokenHandler().WriteToken(token));
+
             //SecurityTokenHandler được thiết kế để tạo và xác thực Json Web Tokens
 
 
         }
 
-        public async Task<PageResult<UserViewModel>> GetUserPaging(GetUserPaginfRequest request)
+        public async Task<ApiResult<UserViewModel>> GetUserByID(Guid id)
+        {
+           var user = await _userManager.FindByIdAsync(id.ToString());   
+           if(user == null)
+            {
+                return new ApiErorResult<UserViewModel>("User không tồn tại");
+            }
+            var uservierModel = new UserViewModel
+            {
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Id = user.Id,
+                PhoneNumber = user.PhoneNumber,
+                UserName = user.UserName,
+
+            };
+            return new ApiSuccessResult<UserViewModel>(uservierModel);
+        }
+
+        public async Task<ApiResult < PageResult<UserViewModel>>> GetUserPaging(GetUserPaginfRequest request)
         {
             var query = _userManager.Users;
             if (!string.IsNullOrEmpty(request.KeyWord))
@@ -92,15 +118,27 @@ namespace eShopSolutions.Application.System.Users
 
             var pagedresult = new PageResult<UserViewModel>()
             {
-                TotalRecord = totalRaw,
+                TotalRecords = totalRaw,
+                PageIndex = request.PageIndex,  
+                PageSize = request.PageSize,
                 Items = data
             };
-            return pagedresult;
+            return new ApiSuccessResult<PageResult<UserViewModel>>(pagedresult);
         }
 
-        public async Task<bool> Register(RegisterRequest request) // dang ky
+        public async Task<ApiResult<bool>> Register(RegisterRequest request) // dang ky
         {
-            var user = new AppUser()
+            var user = await _userManager.FindByNameAsync(request.UserName);
+            if(user != null)
+            {
+
+                return new ApiErorResult<bool>("Tài khoản đã tồn tại");
+            }
+            if (await _userManager.FindByEmailAsync(request.Email) != null)
+            {
+                return new ApiErorResult<bool>("Email đã tồn tại");
+            }
+             user = new AppUser()
             {
                 UserName = request.UserName,
                 Email = request.Email,
@@ -112,9 +150,49 @@ namespace eShopSolutions.Application.System.Users
             var result = await _userManager.CreateAsync(user, request.Password);    
             if(result.Succeeded)
             {
-                return true;
+                return new ApiSuccessResult<bool>();
             }
-            return false;
+            return new ApiErorResult<bool>("Đăng ký không thành công");
+        }
+
+        public async Task<ApiResult<bool>> Edit(Guid id, UserUpdateRequest request)
+        {
+           if(await _userManager.Users.AnyAsync(x=>x.Email == request.Email && x.Id != id ))
+            {
+                return new ApiErorResult<bool>("Email đã tồn tại");
+            }
+            var user = await _userManager.FindByIdAsync(id.ToString());
+
+            user.Email = request.Email;
+            user.FirstName = request.FirstName;
+            user.LastName = request.LastName;
+            user.PhoneNumber = request.PhoneNumber;
+            var result = await _userManager.UpdateAsync(user);
+            if( result.Succeeded )
+            {
+                return new ApiSuccessResult<bool>();
+            }
+            return new ApiErorResult<bool>("Cập nhật không thành công");
+
+           
+        }
+
+        public async Task<ApiResult<bool>> Delete(Guid Id)
+        {
+            var user = await _userManager.FindByIdAsync(Id.ToString());
+            if (user == null)
+            {
+                return new ApiErorResult<bool>("User không tồn tại");
+            }
+            var result =   await  _userManager.DeleteAsync(user);
+         
+            if ( result.Succeeded)
+            {
+                return new ApiSuccessResult<bool>();
+            }
+            return new ApiErorResult<bool>("Xóa không thành công");
+
+
         }
     }
 }

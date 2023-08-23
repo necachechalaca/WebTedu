@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace eShopSolutions.ViewModels.Common.Dtos
 {
-    public class PageResult<T> : PageResultBase
+    public class ApiResult<T>
     {
-        public List<T> Items { get; set; }
-        
+      
+        public bool IsSuccess { get; set; }
+
+        public string Message { get; set; }
+
+        public T ResultObj { get; set; }
     }
 }

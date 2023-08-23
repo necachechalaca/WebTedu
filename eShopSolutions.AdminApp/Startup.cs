@@ -4,6 +4,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,11 +46,12 @@ namespace eShopSolutions.AdminApp
             }
 
             services.AddTransient<IUserApiClient, UserAPIClient>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(option =>
                 {
-                    option.LoginPath = "/User/login";
+                    option.LoginPath = "/User/Login";
                     option.AccessDeniedPath = "/User/Forbidden";
                 });
 
