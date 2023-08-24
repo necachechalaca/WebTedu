@@ -1,4 +1,5 @@
-﻿using System;
+﻿using eShopSolutions.ViewModels.Common.Dtos;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -23,6 +24,8 @@ namespace eShopSolutions.ViewModels.System.Users
         public string UserName { get; set; }
         [Display(Name = "Emails")]
         public string Email { get; set; }   
+
+        public IList<string> Roles { get; set; } 
 
     }
 }

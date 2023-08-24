@@ -1,5 +1,7 @@
 using eShopSolutions.AdminApp.Services;
+using eShopSolutions.Application.System.Users;
 using eShopSolutions.ViewModels.System.Users;
+using eShopSolutions.ViewModels.System.ViewModel;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -46,7 +48,12 @@ namespace eShopSolutions.AdminApp
             }
 
             services.AddTransient<IUserApiClient, UserAPIClient>();
+
+            services.AddTransient<IRolesApiClient, RoleApiClient>(); 
+            services.AddTransient<ILanguageApiClient, LanguageApiClient>(); 
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(option =>

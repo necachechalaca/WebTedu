@@ -1,4 +1,6 @@
 ﻿using eShopSolutions.AdminApp.Services;
+using eShopSolutions.Utilities.Contains;
+using eShopSolutions.ViewModels.Common.Dtos;
 using eShopSolutions.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -21,23 +23,27 @@ namespace eShopSolutions.AdminApp.Controllers
         /* private readonly IConfiguration _configuration;*/
         private readonly IUserApiClient _userApiClient;
         private readonly IConfiguration _configuration; //private readonly chi goi 1 lan
-        public UserController(IUserApiClient userApiClient, IConfiguration configuration)
+        private readonly IRolesApiClient _rolesApiClient;
+        public UserController(IUserApiClient userApiClient, IConfiguration configuration, IRolesApiClient rolesApiClient)
         {
             _userApiClient = userApiClient;
             _configuration = configuration;
+            _rolesApiClient = rolesApiClient;
         }
         public async Task<IActionResult>Index(string keyword, int pageIndex =1, int  pageSize =10)
         {
-            var secssion = HttpContext.Session.GetString("Token");
+          
+
             var request = new GetUserPaginfRequest()
             {
-               
-                KeyWord = keyword,
+
+                Keyword = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
             var data = await  _userApiClient.GetUserPaging(request);
-            ViewData["Keyword"] = keyword;  
+            /* ViewBag.Keyword = keyword;*/
+
             return View(data.ResultObj);
         }
 
@@ -60,10 +66,11 @@ namespace eShopSolutions.AdminApp.Controllers
             var userPrincipal = this.ValidateToken(token.ResultObj);
             var authProperties = new AuthenticationProperties // lưu trữ trạng thái và phiên xác thực
             {
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10), // lấy hoặc gán thời gian tokent hết hạn
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMonths(10), // lấy hoặc gán thời gian tokent hết hạn
                 IsPersistent = true // ghi nhớ đăng nhập
             };
-            HttpContext.Session.SetString("Token", token.ResultObj);
+            HttpContext.Session.SetString(SystemConstants.AppSettings.DefaultLanguageId, _configuration["DefaultLanguageId"]);
+            HttpContext.Session.SetString(SystemConstants.AppSettings.Token, token.ResultObj); // cậu đẩy cái này vào cookie nhé
             // đăng nhập
             await HttpContext.SignInAsync(
                        CookieAuthenticationDefaults.AuthenticationScheme,
@@ -194,6 +201,51 @@ namespace eShopSolutions.AdminApp.Controllers
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
+        [HttpGet]
+        public async Task<IActionResult> RolesAssign(Guid id)
+        {
+            var rolesAssignRequest = await GetRolesAssignRequest(id);
+
+
+
+
+            return View(rolesAssignRequest);
+        }
+      
+        
+        [HttpPost]
+        public async Task<IActionResult> RolesAssign(RolesAssignRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            var result = await _userApiClient.RolesAssign(request.Id, request);
+            if (result.IsSuccess)
+                return RedirectToAction("Index");
+            ModelState.AddModelError("", result.Message);
+            var rolesAssignRequest = GetRolesAssignRequest(request.Id);
+            return View(rolesAssignRequest);
+        }
+
+        private async Task< RolesAssignRequest> GetRolesAssignRequest(Guid id) 
+        {
+            var result = await _userApiClient.GetUserId(id);
+            var roleObj = await _rolesApiClient.GetAll();
+            var rolesAssignRequest = new RolesAssignRequest();
+            foreach (var role in roleObj.ResultObj)
+            {
+                rolesAssignRequest.Roles.Add(new SelectItem()
+                {
+                    Id = role.Id.ToString(),
+                    Name = role.Name,
+                    Selected = result.ResultObj.Roles.Contains(role.Name)
+                });
+            }
+            return rolesAssignRequest;
+
+        }
+
 
     }
 }

@@ -60,13 +60,15 @@ namespace eShopSolutions.AdminApp.Services
         {
 
             var client = _httpClientFactory.CreateClient();
-            client.BaseAddress = new Uri("https://localhost:5001");
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer" + _httpContextAccessor.HttpContext.Session.GetString("Token"));
+            var seccsion = _httpContextAccessor.HttpContext.Session.GetString("Token");
 
-            var response = await client.GetAsync($"/api/users/paging?pageIndex= " +
-                $"{request.PageIndex}&pageSize={request.PageSize}&keywork = {request.KeyWord}");
+
+            client.BaseAddress = new Uri("https://localhost:5001");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer" , seccsion);
+            var response = await client.GetAsync($"/api/users/paging?pageIndex=" +
+                $"{request.PageIndex}&pageSize={request.PageSize}&keyword={request.Keyword}");
             var token = await response.Content.ReadAsStringAsync();
-            var user = JsonConvert.DeserializeObject<ApiResult<PageResult<UserViewModel>>>(token);
+            var user = JsonConvert.DeserializeObject<ApiSuccessResult<PageResult<UserViewModel>>>(token);
             return user;
         }
 
@@ -125,6 +127,27 @@ namespace eShopSolutions.AdminApp.Services
             }
             return JsonConvert.DeserializeObject<ApiErorResult<bool>>(body);
 
+        }
+
+        public async Task<ApiResult<bool>> RolesAssign(Guid id, RolesAssignRequest request)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri("https://localhost:5001");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue
+                ("Bearer" + _httpContextAccessor.HttpContext.Session.GetString("Token"));
+
+
+            var json = JsonConvert.SerializeObject(request);
+
+            var httpcontent = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PutAsync($"/api/users/{id}/roles", httpcontent);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
+
+            return JsonConvert.DeserializeObject<ApiErorResult<bool>>(result);
         }
     }
 }

@@ -2,14 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace eShopSolutions.ViewModels.System.Users
 {
-    public class GetUserPaginfRequest : PagingRequestBase
+    public class RolesAssignRequest
     {
-        public string Keyword { get; set; } = default!;
+        public Guid Id { get; set; }
+        public List<SelectItem>Roles { get; set; }  = new List<SelectItem>();
+
     }
 }
