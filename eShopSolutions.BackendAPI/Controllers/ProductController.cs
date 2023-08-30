@@ -2,8 +2,10 @@
 using eShopSolutions.ViewModels.Catalog.ProductImage;
 using eShopSolutions.ViewModels.Catalog.Products;
 using eShopSolutions.ViewModels.Catalog.Products.Public;
+using eShopSolutions.ViewModels.System.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace eShopSolutions.BackendAPI.Controllers
@@ -38,10 +40,10 @@ namespace eShopSolutions.BackendAPI.Controllers
             var product = await _publicProductServices.GetAllByCategories(request);
             return Ok(product);
         }
-        [HttpGet("{productId}/{language}")]
-        public async Task<IActionResult> GetById(int productId, string language)
+        [HttpGet("{productId}/{languageId}")]
+        public async Task<IActionResult> GetById(int productId, string languageId)
         {   
-            var product = await _managerProductServices.GetById(productId, language);
+            var product = await _managerProductServices.GetById(productId, languageId);
             if(product == null)
             {
                 return BadRequest("can't fint product");
@@ -50,6 +52,7 @@ namespace eShopSolutions.BackendAPI.Controllers
         }
 
         [HttpPost]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
         {
             if (!ModelState.IsValid)
@@ -156,6 +159,33 @@ namespace eShopSolutions.BackendAPI.Controllers
         {
             var query = await _managerProductServices.GetAllPaging(request);  
             return  Ok(query);  
+        }
+        [HttpPut("{id}/categories")]
+        public async Task<IActionResult> CategoryAssign(int id, [FromBody] CategoryAssignRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _managerProductServices.CategoryAssign(id, request);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+
+        }
+        [HttpGet("featured/{languageId}/{take}")]
+        public async Task<IActionResult> GetFeaturedProducts( string languageId, int take)
+        {
+            var product = await _managerProductServices.GetFeaturedProducts(languageId, take);
+            if (product == null)
+            {
+                return BadRequest("can't fint product");
+            }
+            return Ok(product);
         }
 
     }

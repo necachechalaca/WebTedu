@@ -48,6 +48,9 @@ namespace eShopSolutions.Database.EF
             modelBuilder.ApplyConfiguration(new AppUserConfiguration());
             modelBuilder.ApplyConfiguration(new AppRoleConfiguration());
             modelBuilder.ApplyConfiguration(new ProductImageConfiguration());   
+            modelBuilder.ApplyConfiguration(new SlideConfiguration());   
+
+
 
             // cua Identity,
             modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
@@ -75,5 +78,6 @@ namespace eShopSolutions.Database.EF
         public DbSet<Promotion> Promotions { get; set; }
         public DbSet<Transactionn> Transactions { get; set; }
         public DbSet<ProductImage>  ProductImages { get; set; }
+        public DbSet<Slide>  Slides { get; set; }
     }
 }

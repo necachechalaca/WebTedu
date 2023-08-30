@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\eShopSolution.Application\eShopSolutions.Application.csproj" />
     <ProjectReference Include="..\eShopSolution.Database\eShopSolutions.Database.csproj" />
+    <ProjectReference Include="..\eShopSolutions.ApiIntergration\eShopSolutions.ApiIntergration.csproj" />
     <ProjectReference Include="..\eShopSolutions.Utilities\eShopSolutions.Utilities.csproj" />
     <ProjectReference Include="..\eShopSolutions.ViewModels\eShopSolutions.ViewModels.csproj" />
   </ItemGroup>
@@ -26,6 +27,10 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

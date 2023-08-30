@@ -149,7 +149,7 @@ namespace eShopSolution.Database.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "a176452f-8c29-40c5-a29f-b08ef0ac7881",
+                            ConcurrencyStamp = "a324db77-5975-4c50-af7c-47b0a1b9c7db",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -223,7 +223,7 @@ namespace eShopSolution.Database.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5270da06-9a62-429d-a238-34d946919700",
+                            ConcurrencyStamp = "6a7e0d52-64f9-497d-8315-a70de7448bdc",
                             Email = "mactran1997@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Phuc",
@@ -231,7 +231,7 @@ namespace eShopSolution.Database.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "huyphuc1997a@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJsPeHKMinm4a2R5CVDpQ6Rw0K/HvwXFIr3ckG8L3FJ/KU9n7E1595tGH7erP5gkZw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEL/HstcDxw+giwwsRKlMUBewtbkBq90zZvnpDCMpmzcxA8zulog8QsSkS3/LwQf/qA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -403,7 +403,7 @@ namespace eShopSolution.Database.Migrations
                         {
                             Id = 2,
                             CategoryId = 1,
-                            LanguageId = "en",
+                            LanguageId = "vi",
                             Name = "Men Shirt",
                             SeoAlias = "men-shirt",
                             SeoDescription = "The shirt products for men",
@@ -422,8 +422,38 @@ namespace eShopSolution.Database.Migrations
                         new
                         {
                             Id = 4,
+                            CategoryId = 1,
+                            LanguageId = "vi",
+                            Name = "Áo nam",
+                            SeoAlias = "women-shirt",
+                            SeoDescription = "The shirt products for women",
+                            SeoTitle = "The shirt products for women"
+                        },
+                        new
+                        {
+                            Id = 5,
                             CategoryId = 2,
-                            LanguageId = "en",
+                            LanguageId = "vi",
+                            Name = "Women Shirt",
+                            SeoAlias = "women-shirt",
+                            SeoDescription = "The shirt products for women",
+                            SeoTitle = "The shirt products for women"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryId = 1,
+                            LanguageId = "vi",
+                            Name = "Áo nam",
+                            SeoAlias = "women-shirt",
+                            SeoDescription = "The shirt products for women",
+                            SeoTitle = "The shirt products for women"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryId = 2,
+                            LanguageId = "vi",
                             Name = "Women Shirt",
                             SeoAlias = "women-shirt",
                             SeoDescription = "The shirt products for women",
@@ -677,7 +707,7 @@ namespace eShopSolution.Database.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductTranslation");
+                    b.ToTable("ProductTranslations");
 
                     b.HasData(
                         new
@@ -718,6 +748,9 @@ namespace eShopSolution.Database.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool?>("IsFeatured")
+                        .HasColumnType("bit");
+
                     b.Property<decimal>("OriginalPrice")
                         .HasColumnType("decimal(18,2)");
 
@@ -742,7 +775,7 @@ namespace eShopSolution.Database.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2023, 8, 20, 22, 14, 56, 847, DateTimeKind.Local).AddTicks(5966),
+                            DateCreated = new DateTime(2023, 8, 29, 15, 22, 17, 282, DateTimeKind.Local).AddTicks(4977),
                             OriginalPrice = 100000m,
                             Price = 200000m,
                             Stock = 0,
@@ -787,6 +820,108 @@ namespace eShopSolution.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Promotions");
+                });
+
+            modelBuilder.Entity("eShopSolutions.Database.Entity.Slide", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<int>("SortOder")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Slides");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Ngay mai",
+                            Image = "/themes/images/carousel/1.png",
+                            Name = "Second Thumbnail label",
+                            SortOder = 1,
+                            Status = 1,
+                            Url = "#"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = " Troi nhat dinh",
+                            Image = "/themes/images/carousel/2.png",
+                            Name = "Second Thumbnail label",
+                            SortOder = 2,
+                            Status = 1,
+                            Url = "#"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Se sang",
+                            Image = "/themes/images/carousel/3.png",
+                            Name = "Second Thumbnail label",
+                            SortOder = 3,
+                            Status = 1,
+                            Url = "#"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = " Vay hay co len",
+                            Image = "/themes/images/carousel/4.png",
+                            Name = "Second Thumbnail label",
+                            SortOder = 4,
+                            Status = 1,
+                            Url = "#"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Dung lui buoc",
+                            Image = "/themes/images/carousel/5.png",
+                            Name = "Second Thumbnail label",
+                            SortOder = 5,
+                            Status = 1,
+                            Url = "#"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = " Vi con ca gia dinh phia sau",
+                            Image = "/themes/images/carousel/6.png",
+                            Name = "Second Thumbnail label",
+                            SortOder = 6,
+                            Status = 1,
+                            Url = "#"
+                        });
                 });
 
             modelBuilder.Entity("eShopSolutions.Database.Entity.Transactionn", b =>

@@ -12,7 +12,14 @@ namespace eShopSolutions.Utilities.Contains
         public class AppSettings
         {
             public const string DefaultLanguageId = "DefaultLanguageId";
-            public const string Token = "Token";    
+            public const string Token = "Token";
+            public const string BaseAddress = "BaseAddress";
+
+
+        }
+        public class ProductsSetting
+        {
+            public const int NumberOfFeaturedProducts = 4;
         }
     }
 }

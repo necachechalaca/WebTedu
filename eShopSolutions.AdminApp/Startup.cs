@@ -1,5 +1,5 @@
-using eShopSolutions.AdminApp.Services;
-using eShopSolutions.Application.System.Users;
+
+using eShopSolutions.ApiIntergration;
 using eShopSolutions.ViewModels.System.Users;
 using eShopSolutions.ViewModels.System.ViewModel;
 using FluentValidation.AspNetCore;
@@ -53,6 +53,8 @@ namespace eShopSolutions.AdminApp
             services.AddTransient<ILanguageApiClient, LanguageApiClient>(); 
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IProductApiClient, ProductApiClient>();
+            services.AddScoped<ICategoryApiClient, CategoryApiClient>();
 
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

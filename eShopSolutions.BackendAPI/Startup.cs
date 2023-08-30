@@ -1,9 +1,11 @@
 using eShopSolution.Database.Entity;
+using eShopSolutions.Application.Catalog.Category;
 using eShopSolutions.Application.Catalog.Product;
 using eShopSolutions.Application.Common;
 using eShopSolutions.Application.System.Language;
 using eShopSolutions.Application.System.Roles;
 using eShopSolutions.Application.System.Users;
+using eShopSolutions.Application.Utilities;
 using eShopSolutions.Database.EF;
 using eShopSolutions.Utilities.Contains;
 using eShopSolutions.ViewModels.System.Users;
@@ -58,6 +60,8 @@ namespace eShopSolutions.BackendAPI
 
             services.AddTransient<IRolesServices, RolesServices>();
             services.AddTransient<ILanguageServices, LanguageServices>();
+            services.AddTransient<ISlidesServices, SlidesServices>();
+
             services.AddTransient<IValidator<LoginRequest>, LoginRequestValidation>();
             services.AddControllers().AddFluentValidation(fv =>fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidation>());
             services.AddIdentity<AppUser, AppRole>()

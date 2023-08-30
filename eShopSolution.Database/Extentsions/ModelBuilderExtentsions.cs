@@ -41,9 +41,12 @@ namespace eShopSolution.Database.Extentsions
 
             modelBuilder.Entity<CategoryTranslation>().HasData(
                   new CategoryTranslation() { Id = 1, CategoryId = 1, Name = "Áo nam", LanguageId = "vi", SeoAlias = "ao-nam", SeoDescription = "Sản phẩm áo thời trang nam", SeoTitle = "Sản phẩm áo thời trang nam" },
-                  new CategoryTranslation() { Id = 2, CategoryId = 1, Name = "Men Shirt", LanguageId = "en", SeoAlias = "men-shirt", SeoDescription = "The shirt products for men", SeoTitle = "The shirt products for men" },
+                  new CategoryTranslation() { Id = 2, CategoryId = 1, Name = "Men Shirt", LanguageId = "vi", SeoAlias = "men-shirt", SeoDescription = "The shirt products for men", SeoTitle = "The shirt products for men" },
                   new CategoryTranslation() { Id = 3, CategoryId = 2, Name = "Áo nữ", LanguageId = "vi", SeoAlias = "ao-nu", SeoDescription = "Sản phẩm áo thời trang nữ", SeoTitle = "Sản phẩm áo thời trang women" },
-                  new CategoryTranslation() { Id = 4, CategoryId = 2, Name = "Women Shirt", LanguageId = "en", SeoAlias = "women-shirt", SeoDescription = "The shirt products for women", SeoTitle = "The shirt products for women" }
+                  new CategoryTranslation() { Id = 4, CategoryId = 1, Name = "Áo nam", LanguageId = "vi", SeoAlias = "women-shirt", SeoDescription = "The shirt products for women", SeoTitle = "The shirt products for women" },
+                  new CategoryTranslation() { Id = 5, CategoryId = 2, Name = "Women Shirt", LanguageId = "vi", SeoAlias = "women-shirt", SeoDescription = "The shirt products for women", SeoTitle = "The shirt products for women" },
+                  new CategoryTranslation() { Id = 6, CategoryId = 1, Name = "Áo nam", LanguageId = "vi", SeoAlias = "women-shirt", SeoDescription = "The shirt products for women", SeoTitle = "The shirt products for women" },
+                  new CategoryTranslation() { Id = 7, CategoryId = 2, Name = "Women Shirt", LanguageId = "vi", SeoAlias = "women-shirt", SeoDescription = "The shirt products for women", SeoTitle = "The shirt products for women" }
                     );
 
             modelBuilder.Entity<Productt>().HasData(
@@ -116,7 +119,15 @@ namespace eShopSolution.Database.Extentsions
                 RoleId = roleId,
                 UserId = adminId
             });
+            modelBuilder.Entity<Slide>().HasData(
+               new Slide() { Id = 1, Name = "Second Thumbnail label", Description = "Ngay mai", SortOder = 1, Url = "#", Image = "/themes/images/carousel/1.png", Status = Status.Active },
+              new Slide() { Id = 2, Name = "Second Thumbnail label", Description = " Troi nhat dinh", SortOder = 2, Url = "#", Image = "/themes/images/carousel/2.png", Status = Status.Active },
+              new Slide() { Id = 3, Name = "Second Thumbnail label", Description = "Se sang", SortOder = 3, Url = "#", Image = "/themes/images/carousel/3.png", Status = Status.Active },
+              new Slide() { Id = 4, Name = "Second Thumbnail label", Description = " Vay hay co len", SortOder = 4, Url = "#", Image = "/themes/images/carousel/4.png", Status = Status.Active },
+              new Slide() { Id = 5, Name = "Second Thumbnail label", Description = "Dung lui buoc", SortOder = 5, Url = "#", Image = "/themes/images/carousel/5.png", Status = Status.Active },
+              new Slide() { Id = 6, Name = "Second Thumbnail label", Description = " Vi con ca gia dinh phia sau", SortOder = 6, Url = "#", Image = "/themes/images/carousel/6.png", Status = Status.Active }
 
+            );
         }
     }
     

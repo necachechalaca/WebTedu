@@ -17,6 +17,7 @@ namespace eShopSolutions.ViewModels.Catalog.Products
         public string Details { get; set; }
         public string SeoDescription { get; set; }
         public string SeoTitle { get; set; }
+        public bool? IsFeatured { get; set; }   
 
         public string SeoAlias { get; set; }
         public string LanguageId { get; set; }

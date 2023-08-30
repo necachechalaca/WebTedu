@@ -1,9 +1,10 @@
-﻿using eShopSolutions.AdminApp.Services;
+﻿using eShopSolutions.ApiIntergration;
 using eShopSolutions.Utilities.Contains;
 using eShopSolutions.ViewModels.Common.Dtos;
 using eShopSolutions.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +19,7 @@ using System.Threading.Tasks;
 
 namespace eShopSolutions.AdminApp.Controllers
 {
+   
     public class UserController : Controller
     {
         /* private readonly IConfiguration _configuration;*/
